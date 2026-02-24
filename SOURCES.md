@@ -36,6 +36,23 @@ Never cite aggregators — trace to origin.
     [Adversarial state sources: cite for stated position
     only, never as factual claims. Label explicitly.]
 
+  Technology Policy:
+    whitehouse.gov          (executive orders, national security
+                             memoranda, AI policy directives)
+    commerce.gov            (CHIPS Act implementation, industrial
+                             policy, BIS export control guidance)
+    bis.doc.gov             (export control orders, entity list —
+                             also listed under Legal/Sanctions)
+    congress.gov            (enacted legislation, bill text)
+    nist.gov                (AI standards, cybersecurity frameworks)
+    digital-strategy.ec.europa.eu  (EU AI Act, Digital Markets Act,
+                                    Chips Act EU)
+    eur-lex.europa.eu       (EU legal texts — also under Legal/Sanctions)
+    europarl.europa.eu      (EU Parliament adopted texts)
+    [Note: For China technology policy, pbc.gov.cn (PBOC digital yuan)
+     and state.gov (US official China tech assessments) apply.
+     Chinese government tech sources cite as [State position] only.]
+
 ## Tier 2 — Secondary (REPORTED eligible)
 
   Wire services:
@@ -45,6 +62,10 @@ Never cite aggregators — trace to origin.
     Financial Times, Wall Street Journal, Nikkei,
     Les Echos, Handelsblatt, Corriere della Sera (economy),
     South China Morning Post (HK/China policy)
+
+  Technology press (for TECHNOLOGY_POLICY themes only):
+    The Information, Semiconductor Industry Association (sia-online.org),
+    CSIS (csis.org — cited as analysis, not primary source)
 
   Data references (factual figures only, not analysis):
     fred.stlouisfed.org, eia.gov, iea.org reports

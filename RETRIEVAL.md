@@ -29,7 +29,7 @@ Rules:
   - If active_themes.yml missing: HALT. Issue: task [🔴 critical].
   - If yesterday's output missing: load most recent available.
     Note gap in synthesis header. Do NOT treat all themes as New.
-  - If conviction_log < 5 days: skip anchoring check; log reason.
+  - If conviction_log < 5 days of entries: skip anchoring check; log reason.
   - State ALWAYS overrides web: if L1 says Ongoing and L3 says New,
     the theme is Ongoing. New content updates the delta only.
 
@@ -37,29 +37,35 @@ Output: structured state context object passed to Layer 2.
 
 ---
 
-## Layer 2: Semantic Retrieval (corpus, scoped)
+## Layer 2: Canonical Doc Retrieval (Space files, always loaded)
 
-Purpose: Retrieve constraints and deep context from canonical docs
-and prior outputs before issuing live queries.
+Purpose: Load synthesis rules and deep theme context from Space files
+before issuing any live queries.
 
-Load order and budget:
-  Priority 1 (always): METHODOLOGY.md, CONVICTION.md,
-                        TAXONOMY.md, SOURCES.md
+In the Perplexity POC runtime, canonical docs are Space files and are
+always present in context. No retrieval query is required.
+
+Load priority:
+  Priority 1 (always, already in context):
+    METHODOLOGY.md, CONVICTION.md, TAXONOMY.md, SOURCES.md
+
   Priority 2 (if theme active + conviction ≥ 7):
-    outputs/themes/[THEME-NAME].md (most recent)
-  Priority 3 (Task C only): outputs/weekly/[last 3 weeks]
-  Priority 4 (on-demand): outputs/daily/[specific date]
+    outputs/themes/[THEME-NAME].md (most recent, via MCP GitHub read)
+
+  Priority 3 (Task C only):
+    outputs/weekly/[last 3 weeks] (via MCP GitHub read)
+
+  Priority 4 (on-demand):
+    outputs/daily/[specific date] (via MCP GitHub read)
     → Only when Reversal suspected and ref > 7 days ago
 
-Retrieval strategies:
-  Active themes:      Dense embedding, top-3 chunks per theme,
-                      filter: date ≥ theme first_seen
-  Cross-theme:        BM25 + graph traversal, top-2 chunks per pair,
-                      must span ≥ 2 distinct theme tags
-  Methodology rules:  BM25 exact, top-5 rule chunks, load verbatim
-
-Fusion: Reciprocal Rank Fusion (RRF, k=60). De-duplicate by doc ID.
-Source filter: drop Tier 3 chunks unless in Watchpoints context.
+Rules:
+  - Canonical Space files are loaded before any live retrieval.
+    This is enforced by the Space file architecture, not by agent action.
+  - Prior output files (theme briefs, weekly) are fetched via MCP GitHub
+    read only when their priority condition is met.
+  - Do not fetch prior output files speculatively or for background context
+    that is already in base knowledge.
 
 ---
 
@@ -83,7 +89,10 @@ Query generation rules:
 Query construction requirements (all three must be present):
   a) Specific actor, institution, or geography
   b) Time scope: "last 24 hours" or specific date
-  c) Targeted at Tier 1 or Tier 2 source domain
+  c) Phrased to surface primary-source language
+     (e.g., "official statement", "data release", "enacted legislation")
+     Note: domain-level filtering is not possible via Perplexity search.
+     Apply source authority filtering post-retrieval (see below).
 
 Query budget:
   Task A:  Max 12 queries
@@ -92,36 +101,50 @@ Query budget:
   Task D:  Max 8 queries
 
 Post-retrieval filtering:
-  ACCEPT:   Tier 1 or 2 domain + within time scope + factual claim
+  ACCEPT:   Tier 1 or 2 source + within time scope + factual claim
   FLAG:     Credible outlet not in pre-approved list → Reported only
   REJECT:   Tier 3, outside time scope, pure opinion, duplicate
 
 Corrective retrieval:
   If item scores REPORTED and mechanism chain candidate:
-  → One retry: more specific query + Tier 1 domain only.
+  → One retry: more specific query targeting primary-source language.
   → If confirmed: promote to CONFIRMED.
   → If not: keep REPORTED. Max one retry. Do not loop.
   → If pattern recurs for same theme: issue source [🟠 high].
+
+Semantic deduplication:
+  If the same underlying fact appears from multiple outlets
+  (e.g., Reuters, Bloomberg, FT on the same event), retain the
+  highest-authority source only. Do not let multi-outlet reporting
+  of one fact inflate confidence in that fact.
 
 ---
 
 ## Context Assembly
 
-Context window budget (assembly order = priority):
+Context window budget for synthesis content.
+(Claude Sonnet 4.6 context window: 200K tokens.
+ Space files + task prompt consume ~12–15K tokens of base overhead.
+ Remaining available for synthesis content: ~185K tokens.)
 
   | Component                    | Max tokens | Priority |
   |------------------------------|------------|----------|
-  | Methodology rules (L2)       | 800        | 1st      |
-  | State context (L1)           | 1,200      | 2nd      |
-  | Active theme briefs (L2)     | 2,000      | 3rd      |
-  | Confirmed live items (L3)    | 2,500      | 4th      |
-  | Reported live items (L3)     | 1,000      | 5th      |
-  | Cross-theme candidates       | 800        | 6th      |
-  | New theme signals (L3)       | 700        | 7th      |
-  | Total                        | ~9,000     |          |
+  | Canonical docs (L2, Space)   | —          | 1st      |
+  |   (always loaded via Space)  |            |          |
+  | State context (L1)           | 4,000      | 2nd      |
+  | Active theme briefs (L2)     | 8,000      | 3rd      |
+  | Confirmed live items (L3)    | 12,000     | 4th      |
+  | Reported live items (L3)     | 4,000      | 5th      |
+  | Cross-theme candidates       | 3,000      | 6th      |
+  | New theme signals (L3)       | 2,000      | 7th      |
+  | Total synthesis content      | ~33,000    |          |
+
+  Budget may be expanded up to ~80,000 tokens for Task B (deep brief)
+  where extended prior-output context materially improves scenario
+  matrix quality. Do not expand for Task A or Task D.
 
   If budget exceeded: truncate from lowest priority upward.
-  Never truncate methodology rules or state context.
+  Never truncate state context or canonical docs.
 
 Conflict resolution:
   - CONFIRMED overrides REPORTED on same fact (drop REPORTED).
@@ -130,10 +153,12 @@ Conflict resolution:
 
 Assembly anti-patterns (never do these):
   PADDING:      Background facts already in base knowledge.
-  OVER-RECALL:  All docs mentioning a theme keyword, regardless
-                of recency.
-  RAW DUMPS:    Unstructured web text passed directly to agent.
+  OVER-RECALL:  All prior outputs mentioning a theme keyword,
+                regardless of recency.
+  RAW DUMPS:    Unstructured web text passed directly to synthesis.
   LATE LOADING: METHODOLOGY.md loaded after live retrieval.
+  DUPE INFLATE: Same fact from multiple outlets counted as
+                independent confirmation.
 
 ---
 
@@ -173,12 +198,14 @@ Run after assembly, before synthesis begins.
 
   ---
   ## Retrieval metadata
-  Timestamp:             YYYY-MM-DDTHH:MM CET
-  Queries issued:        N
-  Results accepted:      N (confirmed: N, reported: N)
-  Results rejected:      N
-  Corrective retrievals: N
-  State loaded:          Yes | Partial | No
-  Diagnostics:           [HEALTHY | THIN_COVERAGE | STALENESS | ...]
-  Linear issues created: [IDs or "none"]
+  Timestamp:                        YYYY-MM-DDTHH:MM CET
+  Canonical docs version (git SHA): [e.g., 80e2c167...]
+  Space canonical sync timestamp:   [operator-entered, YYYY-MM-DDTHH:MM CET]
+  Queries issued:                   N
+  Results accepted:                 N (confirmed: N, reported: N)
+  Results rejected:                 N
+  Corrective retrievals:            N
+  State loaded:                     Yes | Partial | No
+  Diagnostics:                      HEALTHY | [flags]
+  Linear issues created:            [IDs or "none"]
   ---
