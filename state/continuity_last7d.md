@@ -1,43 +1,8 @@
-# World Alpha — 7-Day Continuity Snapshot
+# World Alpha — Continuity: Last 7 Days
+Generated: 2026-02-24T13:00 CET
 
-<!-- Auto-updated each daily synthesis run. Covers rolling 7-day window. -->
-
-**Last updated:** YYYY-MM-DD
-
----
-
-## Active themes (carried forward)
-
-| Theme tag | Title | Conviction | Status | Last delta |
-|-----------|-------|------------|--------|------------|
-| —         | —     | —          | —      | —          |
-
----
-
-## Conviction deltas (last 7 days)
-
-| Date | Theme | Δ | Rationale |
-|------|-------|---|-----------|
-| —    | —     | — | —         |
-
----
-
-## Watchpoints (pending promotion)
-
-| Theme tag | Trigger | Score | Watch until |
-|-----------|---------|-------|-------------|
-| —         | —       | —     | —           |
-
----
-
-## Open Linear issues
-
-| ID | Title | Priority | Age (days) |
-|----|-------|----------|------------|
-| —  | —     | —        | —          |
-
----
-
-## Synthesis gaps / flags
-
-- None logged
+## Cold-start seed
+System initialised: 2026-02-24.
+No prior synthesis runs. Active themes: none. Watchpoints: none.
+First Task A run will bootstrap from empty state.
+Do NOT treat any theme as Ongoing on first run — all themes will be New.

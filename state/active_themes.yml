@@ -1,14 +1,12 @@
 # World Alpha — Active Theme Registry
-# Updated: automatically on each daily synthesis run
-# Format: one entry per active theme
+# Schema: STATE-SCHEMA.md v1.0
+# DO NOT edit manually during live operation.
+# Written by: Task A (daily) and Task C (weekly) via MCP GitHub.
 
-# themes:
-#   - tag: PRIMARY_THEME_TAG
-#     title: Short human-readable title
-#     opened: YYYY-MM-DD
-#     status: active | watch | closed
-#     conviction: N/12
-#     last_updated: YYYY-MM-DD
-#     invalidation: [Observable condition that would close this theme]
+version: "1.0"
+generated_at: "2026-02-24T13:00 CET"
+generated_by: "operator-seed"
 
 themes: []
+
+watchpoints: []

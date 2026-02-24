@@ -1,13 +1,10 @@
 # World Alpha — Conviction Change Log
-# Append-only. One entry per conviction change event.
-# Format:
-#
-# - date: YYYY-MM-DD
-#   theme: PRIMARY_THEME_TAG
-#   score_before: N/12
-#   score_after: N/12
-#   delta: ↑ | ↓ | →
-#   rationale: One sentence.
-#   triggered_by: daily | theme_brief | weekly | manual
+# Schema: STATE-SCHEMA.md v1.0
+# DO NOT edit manually during live operation.
+# Written by: Task A (daily) and Task C (weekly) via MCP GitHub.
+
+version: "1.0"
+generated_at: "2026-02-24T13:00 CET"
+generated_by: "operator-seed"
 
 entries: []
