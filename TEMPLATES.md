@@ -37,7 +37,7 @@
   [TRIGGER] → [TRANSMISSION] → [AFFECTED DIMENSION] → [HORIZON]
 
   **Conviction:** [N/12]
-    E: [1-3]  M: [1-3]  C: [1-3]  T: [1-3]
+    E: [0-3]  M: [0-3]  C: [0-3]  T: [0-3]
   **Conviction delta:** ↑ | ↓ | → [one sentence]
 
   **Dimensions affected:** [list — no instruments]
@@ -84,14 +84,16 @@
   ---
 
   ## Retrieval metadata
-  Timestamp:             YYYY-MM-DDTHH:MM CET
-  Queries issued:        N
-  Results accepted:      N (confirmed: N, reported: N)
-  Results rejected:      N
-  Corrective retrievals: N
-  State loaded:          Yes | Partial | No
-  Diagnostics:           HEALTHY | [flags]
-  Linear issues created: [IDs or "none"]
+  Timestamp:                        YYYY-MM-DDTHH:MM CET
+  Canonical docs version (git SHA): [e.g., 80e2c167...]
+  Space canonical sync timestamp:   [operator-entered, YYYY-MM-DDTHH:MM CET]
+  Queries issued:                   N
+  Results accepted:                 N (confirmed: N, reported: N)
+  Results rejected:                 N
+  Corrective retrievals:            N
+  State loaded:                     Yes | Partial | No
+  Diagnostics:                      HEALTHY | [flags]
+  Linear issues created:            [IDs or "none"]
 
 ---
 
@@ -137,7 +139,17 @@
 
   ---
   ## Retrieval metadata
-  [Standard footer]
+  Timestamp:                        YYYY-MM-DDTHH:MM CET
+  Canonical docs version (git SHA): [e.g., 80e2c167...]
+  Space canonical sync timestamp:   [operator-entered, YYYY-MM-DDTHH:MM CET]
+  Queries issued:                   N
+  Results accepted:                 N (confirmed: N, reported: N)
+  Results rejected:                 N
+  Corrective retrievals:            N
+  State loaded:                     Yes | Partial | No
+  Diagnostics:                      HEALTHY | [flags]
+  Linear issues created:            [IDs or "none"]
+  ---
 
 ---
 
@@ -187,4 +199,13 @@
 
   ---
   ## Retrieval metadata
-  [Standard footer]
+  Timestamp:                        YYYY-MM-DDTHH:MM CET
+  Canonical docs version (git SHA): [e.g., 80e2c167...]
+  Space canonical sync timestamp:   [operator-entered, YYYY-MM-DDTHH:MM CET]
+  Queries issued:                   N
+  Results accepted:                 N (confirmed: N, reported: N)
+  Results rejected:                 N
+  Corrective retrievals:            N
+  State loaded:                     Yes | Partial | No
+  Diagnostics:                      HEALTHY | [flags]
+  Linear issues created:            [IDs or "none"]

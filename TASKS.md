@@ -10,6 +10,9 @@ output that answers its specific research question.
 
 ## Task A: Daily Research Synthesis  [07:00 CET, daily]
 
+Thinking effort: medium
+Exception: elevate to high for Step 5 cross-theme interaction map only.
+
 Research question:
   "What has materially changed in the last 24 hours, and does
   it upgrade, downgrade, or invalidate any active theme?"
@@ -34,11 +37,13 @@ Process:
   4. SCORE
      Assign conviction scores (CONVICTION.md).
      Check for anchoring (CONVICTION.md §Anchoring check).
+     Score each dimension in a single pass; do not revisit unless
+     a new fact changes the basis for that dimension.
 
   5. SYNTHESIZE
      Write structured narrative per promoted item (max 5).
      Write Watchpoints section.
-     Write cross-theme interaction map.
+     Write cross-theme interaction map.  ← elevate thinking to high
      Write theme registry delta.
      Write tomorrow's focus (1–3 items).
 
@@ -59,6 +64,8 @@ Linear issue triggers: see LINEAR.md §Task A triggers.
 ---
 
 ## Task B: Deep Theme Brief  [on-demand]
+
+Thinking effort: max
 
 Research question:
   "For a given active theme, what is the complete structural
@@ -89,6 +96,8 @@ Max 2 issues per brief.
 
 ## Task C: Weekly Consolidation  [Sunday 18:00 CET]
 
+Thinking effort: medium
+
 Research question:
   "Which themes changed conviction this week? What cross-theme
   interactions emerged? What is the structural picture entering
@@ -118,6 +127,8 @@ Max 4 issues per run.
 
 ## Task D: Source Audit  [monthly, first Sunday]
 
+Thinking effort: low
+
 Research question:
   "Are active sources producing signal or noise? Which need
   to be added, demoted, or retired?"
@@ -132,6 +143,22 @@ Process:
      Tier 1 source in registry for primary actor).
   5. Propose additions/demotions with rationale.
   6. Write findings as a dated changelog entry in SOURCES.md.
+
+Output format (append to SOURCES.md):
+
+  ## Source Audit — YYYY-MM-DD
+
+  ### Retirement candidates (cited 0 times this month)
+  - [source domain] — [rationale]
+
+  ### Noise sources (Speculative items never upgraded)
+  - [source domain] — [N items, never confirmed]
+
+  ### Coverage gaps
+  - [THEME_TAG] — [missing Tier 1 actor] — [proposed addition]
+
+  ### Proposed changes
+  - [Add / Demote / Retire]: [source domain] — [rationale]
 
 Linear issue triggers: see LINEAR.md §Task D triggers.
 Max 5 issues per audit.
