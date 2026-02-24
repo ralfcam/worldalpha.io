@@ -15,7 +15,7 @@
     ✓ Append changelog entries to SOURCES.md (Task D)
     ✗ Modify canonical Space files (README, METHODOLOGY,
       SOURCES, TAXONOMY, CONVICTION, TASKS, RETRIEVAL,
-      LINEAR, TEMPLATES, AUTOMATION)
+      LINEAR, TEMPLATES, AUTOMATION, INVOKE, STATE-SCHEMA, SYNC)
       → Canonical file changes require operator action only
 
   Linear:
@@ -34,6 +34,24 @@
   ✗ Create pull requests (scheduled tasks write direct-to-main)
   ✗ Write to any repo other than worldalpha
   ✗ Close Linear issues requiring operator confirmation
+
+## POC canonical sync policy (manual operator loop)
+
+During POC, canonical docs are executed from the Perplexity Space (runtime),
+not from the GitHub copies.
+
+Operator workflow after any GitHub edit to canonical docs:
+  1. Apply the identical edit to the matching Space file(s) immediately.
+  2. Treat the Space as the effective source-of-truth for subsequent runs.
+  3. Ensure the next produced output includes:
+       - Canonical docs version (git SHA)
+       - Space canonical sync timestamp
+     (see TEMPLATES.md Retrieval metadata).
+
+Agents:
+  - Must not modify canonical docs (Space or GitHub copies).
+  - Must not assume GitHub canonical-doc copies are current unless the operator
+    states that the Space has been synced.
 
 ## Write path reference
 
