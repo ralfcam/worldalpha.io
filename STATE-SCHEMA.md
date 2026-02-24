@@ -80,7 +80,8 @@ Non-conforming files cause Layer 1 failures.
 
   Empty list (entries: []) is valid (cold start).
   Used by Layer 1 for anchoring detection.
-  If entries span < 5 days: skip anchoring check; log reason.
+  If entries cover fewer than 5 distinct dates: skip anchoring check;
+  log reason in output footer.
 
 ---
 
