@@ -29,7 +29,8 @@ Rules:
   - If active_themes.yml missing: HALT. Issue: task [🔴 critical].
   - If yesterday's output missing: load most recent available.
     Note gap in synthesis header. Do NOT treat all themes as New.
-  - If conviction_log < 5 days of entries: skip anchoring check; log reason.
+  - If conviction_log entries cover fewer than 5 distinct dates:
+    skip anchoring check; log reason in output footer.
   - State ALWAYS overrides web: if L1 says Ongoing and L3 says New,
     the theme is Ongoing. New content updates the delta only.
 
@@ -50,7 +51,8 @@ Load priority:
     METHODOLOGY.md, CONVICTION.md, TAXONOMY.md, SOURCES.md
 
   Priority 2 (if theme active + conviction ≥ 7):
-    outputs/themes/[THEME-NAME].md (most recent, via MCP GitHub read)
+    outputs/themes/[THEME-NAME].md
+    (most recent by filename date; via MCP GitHub read)
 
   Priority 3 (Task C only):
     outputs/weekly/[last 3 weeks] (via MCP GitHub read)
@@ -110,7 +112,8 @@ Corrective retrieval:
   → One retry: more specific query targeting primary-source language.
   → If confirmed: promote to CONFIRMED.
   → If not: keep REPORTED. Max one retry. Do not loop.
-  → If pattern recurs for same theme: issue source [🟠 high].
+  → If corrective retrieval fails for the same theme in ≥ 3 consecutive
+    Task A runs: create Linear issue: source [🟠 high].
 
 Semantic deduplication:
   If the same underlying fact appears from multiple outlets
@@ -125,7 +128,10 @@ Semantic deduplication:
 Context window budget for synthesis content.
 (Claude Sonnet 4.6 context window: 200K tokens.
  Space files + task prompt consume ~12–15K tokens of base overhead.
- Remaining available for synthesis content: ~185K tokens.)
+ Remaining available for synthesis content: ~185K tokens.
+ The ~33K synthesis budget below is a quality cap, not a hard limit —
+ it ensures focused, high-precision context rather than exhaustive recall.
+ The remaining headroom is reserved for model reasoning and output generation.)
 
   | Component                    | Max tokens | Priority |
   |------------------------------|------------|----------|
@@ -199,7 +205,7 @@ Run after assembly, before synthesis begins.
   ---
   ## Retrieval metadata
   Timestamp:                        YYYY-MM-DDTHH:MM CET
-  Canonical docs version (git SHA): [e.g., 80e2c167...]
+  Canonical docs version (git SHA): [HEAD SHA at time of run]
   Space canonical sync timestamp:   [operator-entered, YYYY-MM-DDTHH:MM CET]
   Queries issued:                   N
   Results accepted:                 N (confirmed: N, reported: N)

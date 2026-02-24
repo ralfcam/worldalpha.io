@@ -22,15 +22,16 @@
 <context>
   All operational rules are defined in the canonical docs loaded in
   this Perplexity Space:
-    METHODOLOGY.md   — synthesis rules and promotion criteria
-    CONVICTION.md    — conviction scoring framework
-    TAXONOMY.md      — thematic classification system
-    SOURCES.md       — source authority tiers
-    TASKS.md         — task definitions and schedules
-    RETRIEVAL.md     — retrieval and context assembly stack
-    LINEAR.md        — Linear integration: self-reflection + ops
-    TEMPLATES.md     — all output templates
-    AUTOMATION.md    — MCP write policy and guardrails
+    METHODOLOGY.md    — synthesis rules and promotion criteria
+    CONVICTION.md     — conviction scoring framework
+    TAXONOMY.md       — thematic classification system
+    SOURCES.md        — source authority tiers
+    TASKS.md          — task definitions and schedules
+    RETRIEVAL.md      — retrieval and context assembly stack
+    LINEAR.md         — Linear integration: self-reflection + ops
+    TEMPLATES.md      — all output templates
+    AUTOMATION.md     — MCP write policy and guardrails
+    STATE-SCHEMA.md   — state file schemas (required when writing state)
 
   These Space files are the runtime source-of-truth.
   Do not deviate from rules stated in them.
@@ -52,6 +53,7 @@
   Complete RETRIEVAL.md Layers 1, 2, and 3 in order before any synthesis.
   Produce output matching the template in TEMPLATES.md for the task.
   At task end: write state files and outputs via MCP GitHub.
+  State files must conform to STATE-SCHEMA.md schemas.
   Create Linear issues via MCP Linear per LINEAR.md triggers and limits.
 </instructions>
 
@@ -66,6 +68,7 @@
   - DO NOT invent a delta when none exists — write:
     "No new developments in 24h."
   - DO NOT use generic AI preambles or filler phrases in any output.
+  - DO NOT write state files that do not conform to STATE-SCHEMA.md.
   - Keep thinking focused. Do not explore tangents unrelated to the
     specific research question of the current task.
   - Conviction scoring: score each dimension in a single pass.
@@ -83,7 +86,8 @@ Paste the following into this Space. Replace bracketed values.
   Run Task A: Daily Research Synthesis.
   Date: [YYYY-MM-DD]
   State path: github:ralfcam/worldalpha.io/state/
-  Yesterday's output: outputs/daily/[YYYY-MM-DD].md
+  Yesterday's output path: outputs/daily/[YYYY-MM-DD-of-yesterday].md
+    (write "none" if first run or gap in series)
   Thinking effort: medium
 
 ### Task B — Deep Theme Brief
