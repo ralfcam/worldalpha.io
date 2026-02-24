@@ -1,7 +1,7 @@
 # World Alpha — worldalpha.io
 
 **Tagline:** Research-first. Signal-second. Instrument-agnostic.
-**Status:** Bootstrap v0.1 | 2026-02-18
+**Status:** Bootstrap v0.1 | 2026-02-24
 
 ## What it is
 
@@ -70,9 +70,9 @@ World Alpha brings the synthesis.
   LINEAR.md          ← Linear integration: self-reflection + ops
   TEMPLATES.md       ← all output templates in one file
   AUTOMATION.md      ← MCP write policy and guardrails
-  INVOKE.md          ← POC task invocation protocol
-  STATE-SCHEMA.md    ← state file schemas and validation rules
-  SYNC.md            ← canonical doc sync checklist (POC)
+  INVOKE.md          ← task invocation prompts and runtime config
+  STATE-SCHEMA.md    ← state file schemas and required fields
+  SYNC.md            ← canonical doc sync policy and operator checklist
 
 ## Repository structure
 
@@ -89,20 +89,7 @@ World Alpha brings the synthesis.
 
 ## Source of truth
 
-  Canonical docs:   Space files (this set)
-  Output artifacts: GitHub repo (worldalpha, branch: main)
+  Canonical docs:    Space files (13 files above)
+  Output artifacts:  GitHub repo (worldalpha.io, branch: main)
   Operational state: GitHub repo /state/ + Linear project
-
-### POC sync policy (manual)
-
-During POC, the Perplexity Space is the effective runtime source-of-truth for
-canonical docs (METHODOLOGY, SOURCES, TAXONOMY, CONVICTION, TASKS, RETRIEVAL,
-LINEAR, TEMPLATES, AUTOMATION, INVOKE, STATE-SCHEMA, SYNC, README).
-
-If canonical docs are edited in GitHub, the operator must manually apply the
-same edits to the Space immediately after each GitHub edit.
-
-To make drift detectable, every output footer must include:
-- Canonical docs version (git SHA)
-- Space canonical sync timestamp
-(see TEMPLATES.md Retrieval metadata)
+  Sync policy:       See SYNC.md

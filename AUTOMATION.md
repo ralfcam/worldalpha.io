@@ -3,7 +3,7 @@
 ## Write policy
 
   Mode:    direct-to-main (no PR flow for scheduled tasks)
-  Repo:    worldalpha (default branch: main)
+  Repo:    worldalpha.io (default branch: main)
   Trigger: task completion only (not mid-synthesis)
 
 ## Permitted MCP actions (automated tasks)
@@ -13,9 +13,7 @@
     ✓ Overwrite state files (active_themes.yml,
       conviction_log.yml, continuity_last7d.md)
     ✓ Append changelog entries to SOURCES.md (Task D)
-    ✗ Modify canonical Space files (README, METHODOLOGY,
-      SOURCES, TAXONOMY, CONVICTION, TASKS, RETRIEVAL,
-      LINEAR, TEMPLATES, AUTOMATION, INVOKE, STATE-SCHEMA, SYNC)
+    ✗ Modify canonical Space files (see list below)
       → Canonical file changes require operator action only
 
   Linear:
@@ -26,39 +24,38 @@
     ✗ Modify labels set by operator
     ✗ Close issues where Auto-close: No
 
+## Canonical Space files (read-only for agents)
+
+  README.md, METHODOLOGY.md, SOURCES.md, TAXONOMY.md,
+  CONVICTION.md, TASKS.md, RETRIEVAL.md, LINEAR.md,
+  TEMPLATES.md, AUTOMATION.md, INVOKE.md,
+  STATE-SCHEMA.md, SYNC.md
+
+  These 13 files must never be written by automated tasks.
+  Operator action required for all changes.
+
 ## Forbidden actions (all agents, all tasks)
 
   ✗ Force-push to any branch
   ✗ Delete files or branches
   ✗ Modify canonical Space files
   ✗ Create pull requests (scheduled tasks write direct-to-main)
-  ✗ Write to any repo other than worldalpha
+  ✗ Write to any repo other than worldalpha.io
   ✗ Close Linear issues requiring operator confirmation
 
-## POC canonical sync policy (manual operator loop)
+## POC canonical sync policy
 
-During POC, canonical docs are executed from the Perplexity Space (runtime),
-not from the GitHub copies.
+  See SYNC.md for the full operator checklist and drift detection rules.
 
-Operator workflow after any GitHub edit to canonical docs:
-  1. Apply the identical edit to the matching Space file(s) immediately.
-  2. Treat the Space as the effective source-of-truth for subsequent runs.
-  3. Ensure the next produced output includes:
-       - Canonical docs version (git SHA)
-       - Space canonical sync timestamp
-     (see TEMPLATES.md Retrieval metadata).
-
-Agents:
-  - Must not modify canonical docs (Space or GitHub copies).
-  - Must not assume GitHub canonical-doc copies are current unless the operator
-    states that the Space has been synced.
+  Summary: Space is runtime source-of-truth. GitHub copies are
+  version-controlled backups. Sync after every GitHub canonical edit.
 
 ## Write path reference
 
   Daily outputs:    outputs/daily/YYYY-MM-DD.md
   Theme briefs:     outputs/themes/THEME-NAME-YYYY-MM-DD.md
   Weekly:           outputs/weekly/YYYY-Www.md
-  State (overwrite daily):
+  State (overwrite at each Task A and Task C run):
     state/active_themes.yml
     state/conviction_log.yml
     state/continuity_last7d.md  (rolling 7d, overwrite)
