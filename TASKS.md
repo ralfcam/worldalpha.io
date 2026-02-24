@@ -49,7 +49,7 @@ Process:
 
   6. STATE UPDATE
      Overwrite state/active_themes.yml (MCP GitHub write).
-     Append to state/continuity_last7d.md (rolling 7d).
+     Overwrite state/continuity_last7d.md (rolling 7d window, MCP GitHub write).
 
   7. LINEAR
      Create issues for triggered conditions (LINEAR.md §Task A).

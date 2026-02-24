@@ -37,7 +37,7 @@
   [TRIGGER] → [TRANSMISSION] → [AFFECTED DIMENSION] → [HORIZON]
 
   **Conviction:** [N/12]
-    E: [0-3]  M: [0-3]  C: [0-3]  T: [0-3]
+    E: [0–3]  M: [0–3]  C: [0–3]  T: [0–3]
   **Conviction delta:** ↑ | ↓ | → [one sentence]
 
   **Dimensions affected:** [list — no instruments]
@@ -53,9 +53,9 @@
 
   ## Watchpoints
 
-  | # | Theme tag | Trigger | Evidence tier | Score | Watch until |
-  |---|-----------|---------|---------------|-------|-------------|
-  | 1 |           |         |               |       |             |
+  | # | Theme tag | Trigger | Evidence tier | Conviction | Watch until |
+  |---|-----------|---------|---------------|------------|-------------|
+  | 1 |           |         |               |            |             |
 
   ---
 
@@ -85,7 +85,7 @@
 
   ## Retrieval metadata
   Timestamp:                        YYYY-MM-DDTHH:MM CET
-  Canonical docs version (git SHA): [e.g., 80e2c167...]
+  Canonical docs version (git SHA): [HEAD SHA at time of run]
   Space canonical sync timestamp:   [operator-entered, YYYY-MM-DDTHH:MM CET]
   Queries issued:                   N
   Results accepted:                 N (confirmed: N, reported: N)
@@ -140,7 +140,7 @@
   ---
   ## Retrieval metadata
   Timestamp:                        YYYY-MM-DDTHH:MM CET
-  Canonical docs version (git SHA): [e.g., 80e2c167...]
+  Canonical docs version (git SHA): [HEAD SHA at time of run]
   Space canonical sync timestamp:   [operator-entered, YYYY-MM-DDTHH:MM CET]
   Queries issued:                   N
   Results accepted:                 N (confirmed: N, reported: N)
@@ -200,7 +200,7 @@
   ---
   ## Retrieval metadata
   Timestamp:                        YYYY-MM-DDTHH:MM CET
-  Canonical docs version (git SHA): [e.g., 80e2c167...]
+  Canonical docs version (git SHA): [HEAD SHA at time of run]
   Space canonical sync timestamp:   [operator-entered, YYYY-MM-DDTHH:MM CET]
   Queries issued:                   N
   Results accepted:                 N (confirmed: N, reported: N)

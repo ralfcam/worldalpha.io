@@ -77,6 +77,7 @@ It is NOT a prediction of outcome probability.
 ## Conviction expiry
 
   TACTICAL horizon themes: close or re-evaluate after 5 sessions
+    (see METHODOLOGY.md §0 for session definition)
   SHORT horizon themes: re-evaluate after 4 weeks
   STRUCTURAL themes: mandatory re-evaluation at monthly Task D
   SECULAR themes: reviewed in weekly Task C cross-theme map only
