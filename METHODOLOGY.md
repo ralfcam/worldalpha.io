@@ -1,5 +1,18 @@
 # World Alpha — Research Synthesis Methodology
 
+## §0. Definitions
+
+  Session:
+    One trading day: Monday through Friday, excluding public holidays
+    observed by the primary exchange or financial centre most relevant
+    to the theme's affected dimension.
+    Example: a MONETARY_POLICY theme affecting USD rates uses NYSE/Fed
+    calendar. A GEOPOLITICAL_RISK theme affecting European energy uses
+    the Frankfurt/London calendar.
+    When a theme spans multiple geographies, use the union of their
+    holiday calendars (i.e., a day is a non-session if either market
+    is closed).
+
 ## Objective
 
 Transform raw global information into structured, mechanism-grounded
@@ -27,7 +40,7 @@ Every promoted item must include a complete mechanism chain:
   [TRIGGER] → [TRANSMISSION] → [AFFECTED DIMENSION] → [HORIZON]
 
 Horizon categories:
-  TACTICAL:    1–5 sessions
+  TACTICAL:    1–5 sessions  (see §0 for session definition)
   SHORT:       1–4 weeks
   STRUCTURAL:  1–6 months
   SECULAR:     6+ months
@@ -121,6 +134,9 @@ between active themes:
 
 This is the highest-value synthesis output. It must not be skipped.
 Failure to produce a cross-theme map triggers a Linear issue.
+
+For Task A runs: apply elevated thinking effort to this step only,
+even within a medium-effort run (see INVOKE.md Thinking effort reference).
 
 ## 8. Invalidation discipline
 
