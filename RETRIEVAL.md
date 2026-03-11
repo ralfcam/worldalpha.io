@@ -54,6 +54,15 @@ Load priority:
     outputs/themes/[THEME-NAME].md
     (most recent by filename date; via MCP GitHub read)
 
+  Priority 2.5 (conditional; via MCP GitHub read):
+    outputs/reference/regime_mechanism_library.md
+    → Load when EITHER condition is met:
+      a) M-score justification requires historical precedent
+         (i.e., mechanism chain cites > 1 historical analogue), OR
+      b) EQUITY_REGIME or GROWTH_CYCLE theme is active at conviction ≥ 7.
+    → Token budget: treated as part of Active theme briefs (L2) allocation.
+    → If file missing: log in retrieval metadata footer; do not HALT.
+
   Priority 3 (Task C only):
     outputs/weekly/[last 3 weeks] (via MCP GitHub read)
 
@@ -212,6 +221,7 @@ Run after assembly, before synthesis begins.
   Results rejected:                 N
   Corrective retrievals:            N
   State loaded:                     Yes | Partial | No
+  Active theme briefs loaded:       [filenames or "none"]  # includes regime_mechanism_library if loaded
   Diagnostics:                      HEALTHY | [flags]
   Linear issues created:            [IDs or "none"]
   ---
