@@ -14,6 +14,16 @@ Non-conforming files cause Layer 1 failures.
   generated_at: "YYYY-MM-DDTHH:MM CET"
   generated_by: "task-A" | "task-C" | "operator-seed"
 
+  regime_state:                     # OPTIONAL block; populate at every Task A and Task C run
+    cape_current: 0.0               # float; latest CAPE reading (e.g. 39.8)
+    cape_signal: "DEPRESSED"        # DEPRESSED | FAIR | ELEVATED | EXTREME
+                                    # DEPRESSED <12 | FAIR 12–20 | ELEVATED 20–28 | EXTREME >28
+    monetary_stance: "EASING"       # EASING | NEUTRAL | HOLD | TIGHTENING
+    leverage_level: "LOW"           # LOW | MODERATE | ELEVATED | EXTREME
+    earnings_trend: "ACCELERATING"  # ACCELERATING | STABLE | DECELERATING | BIFURCATED
+    composite_signal: ""            # free string; e.g. LATE_CYCLE_FRAGILE
+    historical_analogue: ""         # free string; e.g. "1998–2000 (CAPE 44x, Fed on hold)"
+
   themes:
     - id: "THEME_TAG-YYYY-MM-DD"    # unique: primary tag + first_seen date
       tag: "MONETARY_POLICY"        # primary theme tag (TAXONOMY.md)
@@ -54,6 +64,9 @@ Non-conforming files cause Layer 1 failures.
               conviction_delta_reason, horizon, evidence_tier,
               mechanism_chain, invalidation, anchored, anchored_since
   Watchpoint: id, tag, trigger, evidence_tier, conviction, watch_until
+
+  regime_state is OPTIONAL. If omitted, no Layer 1 failure.
+  If present, all six sub-fields must be populated (no nulls).
 
   Empty lists (themes: [] or watchpoints: []) are valid (cold start).
   Missing required field = file is malformed → HALT Layer 1.
