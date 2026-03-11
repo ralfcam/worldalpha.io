@@ -4,13 +4,13 @@
 # Written by: Task A (daily) and Task C (weekly) via MCP GitHub.
 
 version: "1.0"
-generated_at: "2026-03-11T17:00 CET"
-generated_by: "operator-seed-refined"
+generated_at: "2026-03-11T17:15 CET"
+generated_by: "operator-action-REAZED-91"
 
 themes:
 
-  - id: "GROWTH_CYCLE-2026-02-25"
-    tag: "GROWTH_CYCLE"
+  - id: "EQUITY_REGIME-2026-02-25"
+    tag: "EQUITY_REGIME"
     secondary_tags:
       - "MONETARY_POLICY"
       - "LIQUIDITY_CREDIT"
