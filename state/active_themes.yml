@@ -4,8 +4,17 @@
 # Written by: Task A (daily) and Task C (weekly) via MCP GitHub.
 
 version: "1.0"
-generated_at: "2026-03-11T17:15 CET"
-generated_by: "operator-action-REAZED-91"
+generated_at: "2026-03-11T17:24 CET"
+generated_by: "operator-action-REAZED-92"
+
+regime_state:
+  cape_current: 39.8
+  cape_signal: "EXTREME"
+  monetary_stance: "HOLD"
+  leverage_level: "ELEVATED"
+  earnings_trend: "DECELERATING"
+  composite_signal: "LATE_CYCLE_FRAGILE"
+  historical_analogue: "1998–2000 (CAPE 44x, Fed on hold, narrow breadth, leverage elevated)"
 
 themes:
 
