@@ -30,6 +30,12 @@ Mapping to instruments is the user's responsibility.
     recession/expansion regime change.
     Dimensions: Equities, Credit, FX, Rates
 
+  EQUITY_REGIME
+    Secular bull/bear regime transitions, CAPE-driven valuation
+    cycle extremes, leverage-cycle dynamics, structural multiple
+    expansion/compression, microstructure fragility.
+    Dimensions: Equities, Volatility, Credit, Rates
+
   GEOPOLITICAL_RISK
     Armed conflict and escalation, alliance framework changes,
     political transition risk, sanctions and economic warfare.
@@ -73,3 +79,7 @@ Mapping to instruments is the user's responsibility.
   - Do not create ad-hoc themes outside this taxonomy.
     If a new theme is needed, propose it via Linear issue:
     theme [🟡 medium] with rationale.
+  - EQUITY_REGIME is SECULAR horizon by default. Cross-theme
+    interactions with MONETARY_POLICY and LIQUIDITY_CREDIT are
+    expected at conviction ≥ 7; map explicitly in the cross-theme
+    interaction block.
