@@ -27,7 +27,6 @@ if (!SUPABASE_URL || !SUPABASE_SERVICE_KEY || !SYSTEM_USER_ID) {
   process.exit(1)
 }
 
-// Service role client — bypasses RLS; never use in browser/client bundles
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
   auth: { persistSession: false },
 })
@@ -60,11 +59,17 @@ async function upsertAndLog(table, rows, conflictCol, label) {
   console.log(`[ingest] ${label}: ✓ done`)
 }
 
-// Parse YAML frontmatter from a Markdown file
 function parseFrontmatter(md) {
   const match = md.match(/^---\n([\s\S]*?)\n---/)
   if (!match) return {}
   try { return parseYaml(match[1]) } catch { return {} }
+}
+
+// Dedup rows by a key field, keeping the last entry (highest sort order)
+function dedupBy(rows, keyFn) {
+  const map = new Map()
+  for (const row of rows) map.set(keyFn(row), row)
+  return [...map.values()]
 }
 
 // ── Step 0: Open pipeline_run ──────────────────────────────────────────────────
@@ -72,12 +77,12 @@ function parseFrontmatter(md) {
   const { data, error } = await supabase
     .from('pipeline_runs')
     .insert({
-      run_date:     RUN_DATE,
-      task_type:    'A',
-      started_at:   STARTED_AT,
-      status:       'running',
-      steps_total:  8,
-      user_id:      SYSTEM_USER_ID,
+      run_date:    RUN_DATE,
+      task_type:   'A',
+      started_at:  STARTED_AT,
+      status:      'running',
+      steps_total: 8,
+      user_id:     SYSTEM_USER_ID,
     })
     .select('id')
     .single()
@@ -105,14 +110,14 @@ try {
   if (lastRun?.completed_at) {
     const staleHours = (Date.now() - new Date(lastRun.completed_at).getTime()) / 36e5
     if (staleHours > 36) {
-      console.warn(`[ingest] WARNING: last completed run was ${staleHours.toFixed(1)}h ago (>36h — STALE). Dashboard will show staleness banner.`)
+      console.warn(`[ingest] WARNING: last completed run was ${staleHours.toFixed(1)}h ago (>36h — STALE)`)
     } else {
       console.log(`[ingest] Staleness OK: last run ${staleHours.toFixed(1)}h ago`)
     }
   }
   stepsCompleted++
 
-  // ── Step 2: Parse & upsert active_themes.yml ──────────────────────────────────
+  // ── Step 2: active_themes.yml ← themes + watchpoints ────────────────────────────
   console.log('[ingest] Reading state/active_themes.yml')
   const themesRaw = parseYaml(readFileSync('state/active_themes.yml', 'utf8'))
   console.log(`[ingest] Found ${themesRaw.themes?.length ?? 0} theme(s), ${themesRaw.watchpoints?.length ?? 0} watchpoint(s)`)
@@ -172,7 +177,7 @@ try {
   await upsertAndLog('watchpoints', watchpointRows, 'id', 'watchpoints')
   stepsCompleted++
 
-  // ── Step 4: Conviction log ─────────────────────────────────────────────────────
+  // ── Step 4: conviction_log.yml ─────────────────────────────────────────────────────
   console.log('[ingest] Reading state/conviction_log.yml')
   const logRaw = parseYaml(readFileSync('state/conviction_log.yml', 'utf8'))
 
@@ -203,11 +208,12 @@ try {
   }
   stepsCompleted++
 
-  // ── Step 5: Synthesis outputs (daily MD) ─────────────────────────────────────
+  // ── Step 5: synthesis_outputs (daily MD) ─────────────────────────────────────
   const dailyDir = 'outputs/daily'
   if (existsSync(dailyDir)) {
-    const files = readdirSync(dailyDir).filter(f => f.endsWith('.md')).sort().slice(-7) // last 7 days
-    const outputRows = files.map(fname => {
+    const files = readdirSync(dailyDir).filter(f => f.endsWith('.md')).sort().slice(-14)
+
+    const rawRows = files.map(fname => {
       const md = readFileSync(`${dailyDir}/${fname}`, 'utf8')
       const fm = parseFrontmatter(md)
       const dateMatch = fname.match(/(\d{4}-\d{2}-\d{2})/)
@@ -222,13 +228,23 @@ try {
         user_id:        SYSTEM_USER_ID,
       }
     })
+
+    // Dedup by (output_date, output_type) — Supabase upsert errors if two rows
+    // in the same batch share the conflict key, even with ignoreDuplicates.
+    const outputRows = dedupBy(rawRows, r => `${r.output_date}::${r.output_type}`)
+
     if (outputRows.length) {
-      console.log(`[ingest] synthesis_outputs: upserting ${outputRows.length} daily file(s)…`)
-      const { error } = await supabase
-        .from('synthesis_outputs')
-        .upsert(outputRows, { onConflict: 'output_date,output_type', ignoreDuplicates: false })
-      if (error) console.warn(`[ingest] WARNING: synthesis_outputs upsert failed: ${error.message}`)
-      else console.log('[ingest] synthesis_outputs: ✓ done')
+      console.log(`[ingest] synthesis_outputs: upserting ${outputRows.length} daily file(s) (${rawRows.length - outputRows.length} dupes removed)…`)
+      // Upsert one row at a time to avoid batch-level duplicate key errors
+      let successCount = 0
+      for (const row of outputRows) {
+        const { error } = await supabase
+          .from('synthesis_outputs')
+          .upsert(row, { onConflict: 'output_date,output_type', ignoreDuplicates: false })
+        if (error) console.warn(`[ingest] WARNING: synthesis_outputs upsert failed for ${row.output_date}: ${error.message}`)
+        else successCount++
+      }
+      console.log(`[ingest] synthesis_outputs: ✓ ${successCount}/${outputRows.length} upserted`)
     }
   }
   stepsCompleted++
@@ -242,10 +258,7 @@ try {
         body: JSON.stringify({
           query: `{
             issues(filter: { project: { id: { eq: "bae0b90a-60b9-443c-b01f-775d1698fb5e" } }, state: { type: { neq: "completed" } } }) {
-              nodes {
-                identifier title state { name } priority
-                description
-              }
+              nodes { identifier title state { name } priority description }
             }
           }`,
         }),
@@ -276,7 +289,7 @@ try {
   }
   stepsCompleted++
 
-  // ── Step 7–8: Close pipeline_run (completed) ────────────────────────────────────
+  // ── Step 7–8: Close pipeline_run ────────────────────────────────────────────────────
   if (pipelineRunId) {
     const { error } = await supabase
       .from('pipeline_runs')
@@ -300,10 +313,10 @@ try {
     await supabase
       .from('pipeline_runs')
       .update({
-        completed_at: new Date().toISOString(),
-        status:       'failed',
+        completed_at:    new Date().toISOString(),
+        status:          'failed',
         steps_completed: stepsCompleted,
-        error_detail: err.message,
+        error_detail:    err.message,
       })
       .eq('id', pipelineRunId)
   }
