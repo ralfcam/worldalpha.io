@@ -1,11 +1,6 @@
-# World Alpha — Active Theme Registry
-# Schema: STATE-SCHEMA.md v1.0
-# DO NOT edit manually during live operation.
-# Written by: Task A (daily) and Task C (weekly) via MCP GitHub.
-
 version: "1.0"
-generated_at: "2026-03-11T17:24 CET"
-generated_by: "operator-action-REAZED-92"
+generated_at: "2026-03-12T19:20 CET"
+generated_by: "task-A"
 
 regime_state:
   cape_current: 39.8
@@ -13,8 +8,8 @@ regime_state:
   monetary_stance: "HOLD"
   leverage_level: "ELEVATED"
   earnings_trend: "DECELERATING"
-  composite_signal: "LATE_CYCLE_FRAGILE"
-  historical_analogue: "1998–2000 (CAPE 44x, Fed on hold, narrow breadth, leverage elevated)"
+  composite_signal: "LATE_CYCLE_FRAGILE_STAGFLATION"
+  historical_analogue: "1998–2000 (CAPE 44x, Fed on hold, tariff shock analog: 1930 Smoot-Hawley transmission)"
 
 themes:
 
@@ -23,22 +18,70 @@ themes:
     secondary_tags:
       - "MONETARY_POLICY"
       - "LIQUIDITY_CREDIT"
-    title: "Late-Cycle Equity Regime — CAPE 39.8x, Narrow Breadth, Fed on Hold"
+    title: "Late-Cycle Equity Regime — Stagflation Print Activates Fed Paralysis Node"
     status: "Active"
     first_seen: "2026-02-25"
-    last_updated: "2026-03-11"
-    conviction: 10
+    last_updated: "2026-03-12"
+    conviction: 11
     conviction_scores:
-      E: 2   # CAPE from FRED (Tier 2); Fed stance from federalreserve.gov (Tier 1)
-      M: 3   # Complete chain; 12 historical precedents documented (1901-2026)
-      C: 3   # Regime-break risk under-appreciated; 2026 consensus structurally bullish
-      T: 2   # Horizon identifiable (next tightening or earnings miss); no specific date
-    conviction_delta: "up"
-    conviction_delta_reason: "125-year regime walkthrough confirmed all four structural drivers in late-cycle configuration simultaneously for first time since 1998-2000."
+      E: 3
+      M: 3
+      C: 3
+      T: 2
+    conviction_delta: "↑"
+    conviction_delta_reason: "Feb payrolls -92K + Feb CPI +0.3% m/m confirmed stagflationary configuration, directly activating Fed-paralysis node in mechanism chain; E-score upgraded from 2→3."
     horizon: "SECULAR"
-    evidence_tier: "Reported"
-    mechanism_chain: "CAPE 39.8x + Fed on hold → discount rate compression exhausted, any tightening or earnings miss triggers multiple compression → Equities, Volatility, Credit → SECULAR"
+    evidence_tier: "Confirmed"
+    mechanism_chain: "CAPE 39.8x + Fed structural hold (paralysed by stagflation) → discount rate compression exhausted → any earnings miss or credit event triggers multiple compression → Equities, Volatility, Credit → SECULAR"
     invalidation: "Invalidated if CAPE mean-reverts below 28x, OR Fed pivots to active easing with CAPE declining, OR real EPS growth accelerates above 15% for 2 consecutive quarters across 6+ of 11 S&P sectors."
+    anchored: false
+    anchored_since: null
+
+  - id: "TRADE_GEOPOLITICS-2026-03-12"
+    tag: "TRADE_GEOPOLITICS"
+    secondary_tags:
+      - "EQUITY_REGIME"
+      - "INFLATION_REGIME"
+    title: "Universal Steel/Aluminum Tariff Activation — Global Retaliation Chain Initiated"
+    status: "Active"
+    first_seen: "2026-03-12"
+    last_updated: "2026-03-12"
+    conviction: 8
+    conviction_scores:
+      E: 3
+      M: 2
+      C: 1
+      T: 2
+    conviction_delta: "↑"
+    conviction_delta_reason: "25% steel/aluminum tariffs on all countries took effect today (March 12); Canada C$29.8B retaliation announced for March 13; EU rebalancing packages announced for April 1."
+    horizon: "SHORT"
+    evidence_tier: "Confirmed"
+    mechanism_chain: "Universal 25% steel/aluminum tariff → input cost shock + multi-partner retaliation → corporate margin compression (industrials, autos) + goods re-inflation → earnings estimate revision → trade volume contraction → Growth, Inflation, Equities → SHORT→STRUCTURAL"
+    invalidation: "Invalidated if tariff suspension or negotiated exemptions for major trading partners (Canada, EU) within 30 days AND no further sector tariff activation."
+    anchored: false
+    anchored_since: null
+
+  - id: "FISCAL_SOVEREIGN-2026-03-12"
+    tag: "FISCAL_SOVEREIGN"
+    secondary_tags:
+      - "EQUITY_REGIME"
+      - "MONETARY_POLICY"
+    title: "US Fiscal Trajectory Enters IMF Warning Zone — $1T+ Interest, 101% Debt/GDP"
+    status: "Active"
+    first_seen: "2026-03-12"
+    last_updated: "2026-03-12"
+    conviction: 7
+    conviction_scores:
+      E: 3
+      M: 2
+      C: 1
+      T: 1
+    conviction_delta: "↑"
+    conviction_delta_reason: "CBO $1.9T deficit projection + IMF Article IV 7-8% GDP warning + $1T+ net interest FY2026 constitute simultaneous Tier 1 multilateral confirmation of structural fiscal deterioration."
+    horizon: "STRUCTURAL"
+    evidence_tier: "Confirmed"
+    mechanism_chain: "Structural deficit 7-8% GDP + $1T+ interest + debt 101%→140% GDP/2031 → Treasury supply pressure → term premium expansion → long-end rate floor → discount rate structurally elevated → EQUITY_REGIME escape valve (Fed pivot) closed → Rates, USD, Equities → STRUCTURAL"
+    invalidation: "Invalidated if Congressional fiscal consolidation reduces deficit trajectory to <4% GDP within 12 months, OR nominal GDP surge >6% compresses debt/GDP organically."
     anchored: false
     anchored_since: null
 
@@ -46,7 +89,7 @@ watchpoints:
 
   - id: "LIQUIDITY_CREDIT-2026-02-25"
     tag: "LIQUIDITY_CREDIT"
-    trigger: "0DTE options open interest and HFT market-maker concentration at levels historically associated with endogenous flash-crash amplification; any >1% intraday catalyst could trigger cascade."
-    evidence_tier: "Reported"
+    trigger: "0DTE E-mini options 100K→370K contracts; retail participation significant; dealer gamma asymmetric on one-sided flow; procyclical hedging risk if >1% intraday catalyst."
+    evidence_tier: "Confirmed"
     conviction: 6
     watch_until: "2026-04-25"
