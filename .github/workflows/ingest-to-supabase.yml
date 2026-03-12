@@ -1,0 +1,48 @@
+# World Alpha — Supabase Ingest Pipeline
+# Triggers on every push to main that touches state/ or outputs/
+# Parses YAML/MD state files and upserts into Supabase via service role key.
+#
+# Required secrets (set in repo Settings → Secrets → Actions):
+#   SUPABASE_URL          — https://<project>.supabase.co
+#   SUPABASE_SERVICE_KEY  — service_role key (bypasses RLS; never expose client-side)
+#   SYSTEM_USER_ID        — fixed UUID for the ingest service account (create once in Supabase)
+
+name: Ingest state to Supabase
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'state/active_themes.yml'
+      - 'state/conviction_log.yml'
+      - 'outputs/daily/**.md'
+      - 'outputs/weekly/**.md'
+      - 'outputs/themes/**.md'
+
+  # Allow manual trigger for backfill / debugging
+  workflow_dispatch:
+
+jobs:
+  ingest:
+    name: Parse & upsert
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install --no-save js-yaml @supabase/supabase-js
+
+      - name: Run ingest
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SYSTEM_USER_ID: ${{ secrets.SYSTEM_USER_ID }}
+        run: node scripts/ingest-supabase.mjs
